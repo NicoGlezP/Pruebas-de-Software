@@ -1,0 +1,91 @@
+1. Function that checks if a given number is positive, negative, or zero.
+
+I: 20     O: positive
+I: -55    O: negative
+I: 0      O: zero
+I: 0.01   O: positive
+I: NaN    O: Invalid
+
+
+2. Function that validates user passwords.
+
+The password validation rules are as follows:
+ - The password must be at least 8 characters long.
+ - The password must contain at least one uppercase letter,
+   one lowercase letter, one digit,
+   and one special character (!, @, #, $, %, or &).
+
+I: Password@123     O: Valid
+I: Password!123     O: Valid
+I: Password#123     O: Valid
+I: Password$123     O: Valid
+I: Password%123     O: Valid
+I: Password&123     O: Valid
+I: P@123            O: Invalid
+I: password@123     O: Invalid
+I: PASSWORD@123     O: Invalid
+I: Password@abc     O: Invalid
+I: Password-123     O: Invalid
+I: Password123      O: Invalid
+
+
+3. Function that calculates the discount for a customer's purchase based on the total amount.
+The discount rules are as follows:
+
+If the total amount is less than 100, no discount is applied.
+If the total amount is between 100 and 500 (inclusive), a 10% discount is applied.
+If the total amount is greater than 500, a 20% discount is applied.
+
+I: 25     O: 0%
+I: 100    O: 10%
+I: 500    O: 10%
+I: 600    O: 20%
+I: 99.99  O: 0%
+I: -20    O: 0%
+I: NaN    O: Invalid
+
+
+4. Function that processes user orders in an e-commerce system.
+The function calculates the total price of the items in the order,
+applying different discounts based on the quantity of each item.
+The discount rules are as follows:
+
+If the quantity of a single item is between 1 and 5 (inclusive), no discount is applied.
+If the quantity of a single item is between 6 and 10 (inclusive), a 5% discount is applied.
+If the quantity of a single item is greater than 10, a 10% discount is applied.
+
+I: 1    O: 0%
+I: 5    O: 0%
+I: 6    O: 5%
+I: 10   O: 5%
+I: 11   O: 10%
+I: 0    O: No
+
+
+5. Function that calculates shipping costs for an online shopping system.
+The function calculates shipping costs based on the total weight of the items
+in the order and the shipping method chosen by the customer.
+The shipping cost rules are as follows:
+
+For standard shipping:
+
+If the total weight is less than or equal to 5 kg, the cost is $10.
+If the total weight is between 5 and 10 kg (inclusive), the cost is $15.
+If the total weight is greater than 10 kg, the cost is $20.
+
+For express shipping:
+
+If the total weight is less than or equal to 5 kg, the cost is $20.
+If the total weight is between 5 and 10 kg (inclusive), the cost is $30.
+If the total weight is greater than 10 kg, the cost is $40.
+
+Standard
+I: 5      O: $10
+I: 5.01   O: $15
+I: 10     O: $15
+I: 10.01  O: $20
+Express
+I: 5      O: $20
+I: 5.01   O: $30
+I: 10     O: $30
+I: 10.01  O: $40
