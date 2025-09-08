@@ -38,7 +38,9 @@ repos:
     rev: v9.13.0
     hooks:
       - id: eslint
-        files: \.js$
+        additional_dependencies:
+          - "@eslint/js"
+          - "globals"
 
   - repo: https://github.com/PyCQA/isort
     rev: 5.13.2
