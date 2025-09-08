@@ -34,6 +34,12 @@ repos:
     hooks:
       - id: black
 
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.57.0
+    hooks:
+      - id: eslint
+        files: \.js$
+
   - repo: https://github.com/PyCQA/isort
     rev: 5.13.2
     hooks:
