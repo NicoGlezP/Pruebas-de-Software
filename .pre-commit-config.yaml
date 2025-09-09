@@ -42,6 +42,12 @@ repos:
           - "@eslint/js"
           - "globals"
 
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: pretty-format-json
+        args: [--autofix, --no-ensure-ascii, --indent, "2"]
+
   - repo: https://github.com/PyCQA/isort
     rev: 5.13.2
     hooks:
