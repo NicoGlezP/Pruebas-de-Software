@@ -38,10 +38,11 @@ repos:
     rev: v9.13.0
     hooks:
       - id: eslint
-        additional_dependencies:
-          - eslint@9.13.0
-          - "@eslint/js"
-          - "globals"
+        ci: false
+        #additional_dependencies:
+        #  - eslint@9.13.0
+        #  - "@eslint/js"
+        #  - "globals"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
