@@ -1,0 +1,18 @@
+{
+  "author": "",
+  "description": "Ejercicios de Pruebas de Software Otono 2025",
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "eslint": "^9.35.0",
+    "globals": "^16.4.0"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "main": "hello_world.js",
+  "name": "pruebas-de-software",
+  "scripts": {
+    "lint:js": "eslint . --ext .js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
