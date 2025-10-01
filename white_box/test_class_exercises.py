@@ -6,14 +6,22 @@ White-box unit testing examples.
 import unittest
 
 from white_box.class_exercises import (
+    TrafficLight,
     VendingMachine,
+    calculate_items_shipping_cost,
+    calculate_order_total,
     calculate_total_discount,
+    categorize_product,
+    celsius_to_fahrenheit,
     check_number_status,
     divide,
     get_grade,
     is_even,
     is_triangle,
+    validate_email,
+    validate_login,
     validate_password,
+    verify_age,
 )
 
 
@@ -132,7 +140,7 @@ class TestValidatePassword(unittest.TestCase):
 
     def test_validate_password_wrong_length(self):
         """
-        Checks password with length lower than 8
+        Checks password with length less than 8
         """
         self.assertFalse(validate_password("Pass@1"))
 
@@ -191,9 +199,336 @@ class TestCalculateTotalDiscount(unittest.TestCase):
         self.assertEqual(calculate_total_discount(501), 0.2 * 501)
 
 
+class TestCalculateOrderTotal(unittest.TestCase):
+    """
+    Exercise #04
+    """
+
+    def test_calculate_order_total_empty_items(self):
+        """
+        Checks total_price for no items / no quantity
+        """
+        items = []
+        self.assertEqual(calculate_order_total(items), 0)
+
+    def test_calculate_order_total_between_1_and_5_no_1(self):
+        """
+        Checks total_price for quantity = 1
+        """
+        items = [{"quantity": 1, "price": 10}]
+        self.assertEqual(calculate_order_total(items), 10)
+
+    def test_calculate_order_total_between_1_and_5_no_2(self):
+        """
+        Checks total_price for quantity = 5
+        """
+        items = [{"quantity": 5, "price": 10}]
+        self.assertEqual(calculate_order_total(items), 5 * 10)
+
+    def test_calculate_order_total_between_6_and_10_no_1(self):
+        """
+        Checks total_price for quantity = 6
+        """
+        items = [{"quantity": 6, "price": 10}]
+        self.assertEqual(calculate_order_total(items), 0.95 * 6 * 10)
+
+    def test_calculate_order_total_between_6_and_10_no_2(self):
+        """
+        Checks total_price for quantity = 10
+        """
+        items = [{"quantity": 10, "price": 10}]
+        self.assertEqual(calculate_order_total(items), 0.95 * 10 * 10)
+
+    def test_calculate_order_total_greater_than_10(self):
+        """
+        Checks total_price for quantity > 10
+        """
+        items = [{"quantity": 11, "price": 10}]
+        self.assertEqual(calculate_order_total(items), 0.9 * 11 * 10)
+
+    def test_calculate_order_total_different_quantities(self):
+        """
+        Checks total_price for different items with different quantities
+        """
+        items = [
+            {"quantity": 2, "price": 5},
+            {"quantity": 8, "price": 10},
+            {"quantity": 20, "price": 2},
+        ]
+        output = (2 * 5) + (0.95 * 8 * 10) + (0.9 * 20 * 2)
+        self.assertEqual(calculate_order_total(items), output)
+
+    #
+    # Preguntar al profe si para el ejercicio 4 y 5 incluyo testcases para cunado items está vacía
+    # o quantity/weight = 0
+    #
+
+
+class TestCalculateItemsShippingCost(unittest.TestCase):
+    """
+    Exercise #05
+    """
+
+    def test_calculate_items_shipping_cost_standard_less_or_equal_to_5(self):
+        """
+        Checks shipping_cost for standard shipping method and total_weight <= 5
+        """
+        items = [{"weight": 5}]
+        shipping_method = "standard"
+        self.assertEqual(calculate_items_shipping_cost(items, shipping_method), 10)
+
+    def test_calculate_items_shipping_cost_standard_between_5_and_10_no_1(self):
+        """
+        Checks shipping_cost for standard shipping method and 5 < total_weight <= 10
+        """
+        items = [{"weight": 5.01}]
+        shipping_method = "standard"
+        self.assertEqual(calculate_items_shipping_cost(items, shipping_method), 15)
+
+    def test_calculate_items_shipping_cost_standard_between_5_and_10_no_2(self):
+        """
+        Checks shipping_cost for standard shipping method and 5 < total_weight <= 10
+        """
+        items = [{"weight": 10}]
+        shipping_method = "standard"
+        self.assertEqual(calculate_items_shipping_cost(items, shipping_method), 15)
+
+    def test_calculate_items_shipping_cost_standard_greater_than_10(self):
+        """
+        Checks shipping_cost for standard shipping method and total_weight > 10
+        """
+        items = [{"weight": 10.01}]
+        shipping_method = "standard"
+        self.assertEqual(calculate_items_shipping_cost(items, shipping_method), 20)
+
+    def test_calculate_items_shipping_cost_express_less_or_equal_to_5(self):
+        """
+        Checks shipping_cost for express shipping method and total_weight <= 5
+        """
+        items = [{"weight": 5}]
+        shipping_method = "express"
+        self.assertEqual(calculate_items_shipping_cost(items, shipping_method), 20)
+
+    def test_calculate_items_shipping_cost_express_between_5_and_10_no_1(self):
+        """
+        Checks shipping_cost for express shipping method and 5 < total_weight <= 10
+        """
+        items = [{"weight": 5.01}]
+        shipping_method = "express"
+        self.assertEqual(calculate_items_shipping_cost(items, shipping_method), 30)
+
+    def test_calculate_items_shipping_cost_express_between_5_and_10_no_2(self):
+        """
+        Checks shipping_cost for express shipping method and 5 < total_weight <= 10
+        """
+        items = [{"weight": 10}]
+        shipping_method = "express"
+        self.assertEqual(calculate_items_shipping_cost(items, shipping_method), 30)
+
+    def test_calculate_items_shipping_cost_express_greater_than_10(self):
+        """
+        Checks shipping_cost for express shipping method and total_weight > 10
+        """
+        items = [{"weight": 10.01}]
+        shipping_method = "express"
+        self.assertEqual(calculate_items_shipping_cost(items, shipping_method), 40)
+
+    #
+    # Preguntar al profe si para el ejercicio 5 incluyo test cases para suma de pesos
+    #
+
+
+class TestValidateLogin(unittest.TestCase):
+    """
+    Exercise #06
+    """
+
+    def test_validate_login_username_in_range_and_password_in_range(self):
+        """
+        Checks login for 5 <= username <= 20 and 8 <= password <= 15
+        """
+        self.assertEqual(validate_login("nicolas", "password"), "Login Successful")
+
+    def test_validate_login_username_in_range_and_password_not_in_range_no_1(self):
+        """
+        Checks login for 5 <= username <= 20 and password < 8
+        """
+        self.assertEqual(validate_login("nicol", "passwor"), "Login Failed")
+
+    def test_validate_login_username_in_range_and_password_not_in_range_no_2(self):
+        """
+        Checks login for 5 <= username <= 20 and password > 15
+        """
+        self.assertEqual(
+            validate_login("nicolasGonzalezPerez", "password12345678"), "Login Failed"
+        )
+
+    def test_validate_login_username_not_in_range_and_password_in_range_no_1(self):
+        """
+        Checks login for 8 <= password <= 15 and username < 5
+        """
+        self.assertEqual(validate_login("nicol", "passwor"), "Login Failed")
+
+    def test_validate_login_username_not_in_range_and_password_in_range_no_2(self):
+        """
+        Checks login for 8 <= password <= 15 and username > 20
+        """
+        self.assertEqual(
+            validate_login("nicolasGonzalezPerez1", "password1234567"), "Login Failed"
+        )
+
+
+class TestVerifyAge(unittest.TestCase):
+    """
+    Exercise #07
+    """
+
+    def test_verify_age_between_18_and_65_no_1(self):
+        """
+        Checks for 18 <= age <= 65
+        """
+        self.assertEqual(verify_age(18), "Eligible")
+
+    def test_verify_age_between_18_and_65_no_2(self):
+        """
+        Checks for 18 <= age <= 65
+        """
+        self.assertEqual(verify_age(65), "Eligible")
+
+    def test_verify_age_less_than_18(self):
+        """
+        Checks for age < 18
+        """
+        self.assertEqual(verify_age(17), "Not Eligible")
+
+    def test_verify_age_greater_than_65(self):
+        """
+        Checks for age > 65
+        """
+        self.assertEqual(verify_age(66), "Not Eligible")
+
+
+class TestCategorizeProduct(unittest.TestCase):
+    """
+    Exercise #08
+    """
+
+    def test_categorize_product_category_a_no_1(self):
+        """
+        Checks for 10 <= price <= 50
+        """
+        self.assertEqual(categorize_product(10), "Category A")
+
+    def test_categorize_product_category_a_no_2(self):
+        """
+        Checks for 10 <= price <= 50
+        """
+        self.assertEqual(categorize_product(50), "Category A")
+
+    def test_categorize_product_category_b_no_1(self):
+        """
+        Checks for 51 <= price <= 100
+        """
+        self.assertEqual(categorize_product(51), "Category B")
+
+    def test_categorize_product_category_b_no_2(self):
+        """
+        Checks for 51 <= price <= 100
+        """
+        self.assertEqual(categorize_product(100), "Category B")
+
+    def test_categorize_product_category_c_no_1(self):
+        """
+        Checks for 101 <= price <= 200
+        """
+        self.assertEqual(categorize_product(101), "Category C")
+
+    def test_categorize_product_category_c_no_2(self):
+        """
+        Checks for 101 <= price <= 200
+        """
+        self.assertEqual(categorize_product(200), "Category C")
+
+    def test_categorize_product_category_d_no_1(self):
+        """
+        Checks for price < 10
+        """
+        self.assertEqual(categorize_product(9), "Category D")
+
+    def test_categorize_product_category_d_no_2(self):
+        """
+        Checks for price > 200
+        """
+        self.assertEqual(categorize_product(201), "Category D")
+
+
+class TestValidateEmail(unittest.TestCase):
+    """
+    Exercise #09
+    """
+
+    def test_validate_email_correct_email(self):
+        """
+        Checks for email with 5 <= length <= 50, @ and .
+        """
+        self.assertEqual(validate_email("email@test.com"), "Valid Email")
+
+    def test_validate_email_wrong_length(self):
+        """
+        Checks for email with length out of range
+        """
+        self.assertEqual(validate_email("em@."), "Invalid Email")
+
+    def test_validate_email_no_at(self):
+        """
+        Checks for email with no @
+        """
+        self.assertEqual(validate_email("email.test"), "Invalid Email")
+
+    def test_validate_email_no_dot(self):
+        """
+        Checks for email with no .
+        """
+        self.assertEqual(validate_email("email@test"), "Invalid Email")
+
+    #
+    # Preguntar al profe si para el ejercicio 9 está bien el límite de length
+    #
+
+
+class TestCelsiusToFahrenheit(unittest.TestCase):
+    """
+    Exercise #10
+    """
+
+    def test_celsius_to_fahrenheit_between_minus_100_and_100_no_1(self):
+        """
+        Checks for -100 <= celsius <= 100
+        """
+        self.assertEqual(celsius_to_fahrenheit(-100), (-100 * 9 / 5) + 32)
+
+    def test_celsius_to_fahrenheit_between_minus_100_and_100_no_2(self):
+        """
+        Checks for -100 <= celsius <= 100
+        """
+        self.assertEqual(celsius_to_fahrenheit(100), (100 * 9 / 5) + 32)
+
+    def test_celsius_to_fahrenheit_less_than_minus_100(self):
+        """
+        Checks for celsius < -100
+        """
+        self.assertEqual(celsius_to_fahrenheit(-101), "Invalid Temperature")
+
+    def test_celsius_to_fahrenheit_greater_than_minus_100(self):
+        """
+        Checks for celsius > 100
+        """
+        self.assertEqual(celsius_to_fahrenheit(101), "Invalid Temperature")
+
+
 class TestWhiteBoxVendingMachine(unittest.TestCase):
     """
-    Vending Machine unit tests.
+    Exercise #22 Vending Machine unit tests.
     """
 
     # @classmethod
@@ -230,3 +565,38 @@ class TestWhiteBoxVendingMachine(unittest.TestCase):
 
         self.assertEqual(self.vending_machine.state, "Dispensing")
         self.assertEqual(output, "Coin Inserted. Select your drink.")
+
+
+class TestTrafficLight(unittest.TestCase):
+    """
+    Exercise #23
+    """
+
+    def setUp(self):
+        self.traffic_light = TrafficLight()
+        self.assertEqual(self.traffic_light.state, "Red")
+
+    def test_traffic_light_change_state_success(self):
+        """
+        Checks the correct light change
+        """
+        self.traffic_light.change_state()
+        self.assertEqual(self.traffic_light.state, "Green")
+
+        self.traffic_light.change_state()
+        self.assertEqual(self.traffic_light.state, "Yellow")
+
+        self.traffic_light.change_state()
+        self.assertEqual(self.traffic_light.state, "Red")
+
+    def test_traffic_light_change_state_failed(self):
+        """
+        Checks the wrong light change
+        """
+        self.traffic_light.change_state()
+        self.assertEqual(self.traffic_light.state, "Green")
+
+        self.traffic_light.state = "Red"
+
+        self.traffic_light.change_state()
+        self.assertIsNot(self.traffic_light.state, "Yellow")
